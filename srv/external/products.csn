@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "creator": "cds-dk 6.7.0"
+  },
+  "$version": "2.0",
+  "definitions": {
+    "products": {
+      "kind": "service",
+      "@cds.external": true,
+      "@m.IsDefaultEntityContainer": "true"
+    },
+    "products.Products": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@cds.persistence.skip": true,
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer",
+          "notNull": true
+        },
+        "Name": {
+          "type": "cds.LargeString",
+          "@m.FC_TargetPath": "SyndicationTitle",
+          "@m.FC_ContentKind": "text",
+          "@m.FC_KeepInContent": "false"
+        },
+        "Description": {
+          "type": "cds.LargeString",
+          "@m.FC_TargetPath": "SyndicationSummary",
+          "@m.FC_ContentKind": "text",
+          "@m.FC_KeepInContent": "false"
+        },
+        "ReleaseDate": {
+          "type": "cds.DateTime",
+          "@odata.Type": "Edm.DateTime",
+          "notNull": true
+        },
+        "DiscontinuedDate": {
+          "type": "cds.DateTime",
+          "@odata.Type": "Edm.DateTime"
+        },
+        "Rating": {
+          "type": "cds.Integer",
+          "notNull": true
+        },
+        "Price": {
+          "type": "cds.Decimal",
+          "notNull": true
+        },
+        "Category": {
+          "@cds.ambiguous": "missing on condition?",
+          "type": "cds.Association",
+          "target": "products.Categories",
+          "keys": []
+        },
+        "Supplier": {
+          "@cds.ambiguous": "missing on condition?",
+          "type": "cds.Association",
+          "target": "products.Suppliers",
+          "keys": []
+        }
+      }
+    },
+    "products.Categories": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@cds.persistence.skip": true,
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer",
+          "notNull": true
+        },
+        "Name": {
+          "type": "cds.LargeString",
+          "@m.FC_TargetPath": "SyndicationTitle",
+          "@m.FC_ContentKind": "text",
+          "@m.FC_KeepInContent": "true"
+        },
+        "Products": {
+          "@cds.ambiguous": "missing on condition?",
+          "type": "cds.Association",
+          "target": "products.Products",
+          "cardinality": {
+            "max": "*"
+          },
+          "keys": []
+        }
+      }
+    },
+    "products.Suppliers": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@cds.persistence.skip": true,
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer",
+          "notNull": true
+        },
+        "Name": {
+          "type": "cds.LargeString",
+          "@m.FC_TargetPath": "SyndicationTitle",
+          "@m.FC_ContentKind": "text",
+          "@m.FC_KeepInContent": "true"
+        },
+        "Address": {
+          "type": "products.Address",
+          "notNull": true
+        },
+        "Concurrency": {
+          "type": "cds.Integer",
+          "notNull": true
+        },
+        "Products": {
+          "@cds.ambiguous": "missing on condition?",
+          "type": "cds.Association",
+          "target": "products.Products",
+          "cardinality": {
+            "max": "*"
+          },
+          "keys": []
+        }
+      }
+    },
+    "products.Address": {
+      "kind": "type",
+      "@cds.external": true,
+      "elements": {
+        "Street": {
+          "type": "cds.LargeString"
+        },
+        "City": {
+          "type": "cds.LargeString"
+        },
+        "State": {
+          "type": "cds.LargeString"
+        },
+        "ZipCode": {
+          "type": "cds.LargeString"
+        },
+        "Country": {
+          "type": "cds.LargeString"
+        }
+      }
+    },
+    "products.GetProductsByRating": {
+      "kind": "function",
+      "@cds.external": true,
+      "params": {
+        "rating": {
+          "type": "cds.Integer"
+        }
+      },
+      "returns": {
+        "items": {
+          "type": "products.Products"
+        }
+      }
+    }
+  }
+}

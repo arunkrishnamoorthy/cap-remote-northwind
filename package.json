@@ -6,6 +6,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@sap-cloud-sdk/http-client": "^3.1.1",
     "@sap/cds": "^6",
     "express": "^4"
   },
@@ -14,5 +15,20 @@
   },
   "scripts": {
     "start": "cds-serve"
+  },
+  "cds": {
+    "requires": {
+      "trip": {
+        "kind": "odata",
+        "model": "srv/external/trip"
+      },
+      "products": {
+        "kind": "odata-v2",
+        "model": "srv/external/products",
+        "credentials": {
+          "url": "https://services.odata.org/V2/(S(svx1qou5dk4zqa02zr2tk20q))/OData/OData.svc/"
+        }
+      }
+    }
   }
 }
